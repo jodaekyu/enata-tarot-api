@@ -1,10 +1,10 @@
 services:
   - type: web
-    name: enata-free-tarot-api
+    name: enata-tarot-api
     env: node
     plan: free
-    buildCommand: "npm install"
-    startCommand: "node index.js"
+    buildCommand: npm install
+    startCommand: node index.js
     envVars:
       - key: OPENAI_API_KEY
         value: "{{OPENAI_API_KEY}}"
