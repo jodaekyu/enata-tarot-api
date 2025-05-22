@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import { OpenAI } from 'openai'
 
 dotenv.config()
+
 const app = express()
 const port = process.env.PORT || 3000
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
@@ -11,6 +12,12 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
 app.use(cors())
 app.use(express.json())
 
+// ✅ 루트 경로 테스트용
+app.get('/', (req, res) => {
+  res.send('✨ 에나타 타로 API가 정상 작동 중입니다!');
+})
+
+// ✅ 타로 카드 AI 해석 생성 엔드포인트
 app.post('/generate', async (req, res) => {
   const { question, cards } = req.body
 
@@ -24,8 +31,7 @@ app.post('/generate', async (req, res) => {
         role: 'user',
         content: `질문: ${question}
 카드 의미:
-${cards.map(card => `- ${card.name}: ${card.meaning}`).join('\n')}
-`
+${cards.map(card => `- ${card.name}: ${card.meaning}`).join('\n')}`
       }
     ]
 
@@ -43,6 +49,7 @@ ${cards.map(card => `- ${card.name}: ${card.meaning}`).join('\n')}
   }
 })
 
+// ✅ 서버 실행
 app.listen(port, () => {
   console.log(`✅ 서버 실행 중! http://localhost:${port}`)
 })
